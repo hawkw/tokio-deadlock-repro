@@ -1,0 +1,10 @@
+Run it with:
+
+    $ RUST_LOG=deadlock_repro=info cargo run
+
+and eventually, the program will hang (after a variable number of calls to
+`block_on`).
+
+The reproduction code includes `env_logger`, so it's also possible to see
+debug/trace logs from the threadpool. This might be useful for debugging
+the deadlock.
