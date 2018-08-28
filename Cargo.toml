@@ -8,4 +8,4 @@ authors = ["Eliza Weisman <eliza@buoyant.io>"]
 tokio = { git = "https://github.com/tokio-rs/tokio.git" }
 futures = "0.1.23"
 log = "0.4"
-pretty_env_logger = "0.2.4"
+env_logger = "0.5"

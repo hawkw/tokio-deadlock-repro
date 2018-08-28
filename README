@@ -1,6 +1,6 @@
 Run it with:
 
-    $ RUST_LOG=deadlock_repro=info cargo run
+    $ cargo run
 
 and eventually, the program will hang (after a variable number of calls to
 `block_on`).

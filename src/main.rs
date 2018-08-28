@@ -1,5 +1,5 @@
 extern crate futures;
-extern crate pretty_env_logger;
+extern crate env_logger;
 extern crate tokio;
 #[macro_use]
 extern crate log;
@@ -9,14 +9,20 @@ use std::sync::{Arc, Mutex};
 use std::usize;
 
 fn main() {
-    let _ = pretty_env_logger::try_init();
+    let _ = env_logger::try_init_from_env(
+        env_logger::Env::default()
+            .filter_or(
+                env_logger::DEFAULT_FILTER_ENV,
+                "info,deadlock_repro=debug",
+            )
+    );
 
     let mut i = 0;
     let mut runtime = tokio::runtime::Runtime::new().expect("rt");
     let (tx, rx) = mpsc::unbounded();
     let send_all = tx
         .send_all(stream::iter_ok(1..usize::MAX))
-        .map(|_| debug!("sent..."))
+        .map(|_| debug!("sent all"))
         .map_err(|e| panic!("send_all failed: {:?}", e));
     runtime.spawn(Box::new(send_all));
     let rxf = Arc::new(Mutex::new(Some(rx.into_future())));
